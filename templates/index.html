@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sinema AI — Film Öneri</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#09111b;
+  --surface:#0E0E16;
+  --surface2:#13131E;
+  --border:rgba(255,255,255,0.07);
+  --border-hover:rgba(250,204,21,0.35);
+  --gold:#6EE7FF;
+  --gold-dim:rgba(250,204,21,0.12);
+  --gold-glow:rgba(250,204,21,0.06);
+  --text:#F1F5F9;
+  --text-muted:#64748B;
+  --text-dim:#94A3B8;
+}
+
+html,body{height:100%;overflow:hidden;}
+
+body{
+  background:radial-gradient(circle at top,#132238,#09111b 60%,#05080f);
+  font-family:'Outfit',sans-serif;
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+}
+
+/* Ambient glow */
+.ambient{
+  position:fixed;
+  pointer-events:none;
+  border-radius:50%;
+  filter:blur(80px);
+  opacity:0.5;
+}
+.ambient-1{width:500px;height:500px;background:radial-gradient(circle,rgba(245,158,11,0.07),transparent);top:-150px;left:-100px;}
+.ambient-2{width:400px;height:400px;background:radial-gradient(circle,rgba(250,204,21,0.04),transparent);bottom:-100px;right:-80px;}
+
+.app{
+  width:100%;
+  max-width:1320px;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  border-left:1px solid var(--border);
+  border-right:1px solid var(--border);
+  position:relative;
+  z-index:1;
+}
+
+/* HEADER */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 28px;
+  border-bottom:1px solid var(--border);
+  background:rgba(7,7,12,0.7);
+  backdrop-filter:blur(16px);
+  flex-shrink:0;
+}
+
+.logo{display:flex;align-items:center;gap:10px;}
+
+.logo-icon{
+  width:38px;height:38px;
+  border-radius:10px;
+  background:linear-gradient(135deg,#FACC15,#F59E0B);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+  box-shadow:0 2px 16px rgba(250,204,21,0.25);
+  flex-shrink:0;
+}
+
+.logo-text{
+  font-family:'Playfair Display',serif;
+  font-size:20px;
+  font-weight:700;
+  background:linear-gradient(160deg,#fff 30%,#94A3B8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+.header-right{display:flex;align-items:center;gap:12px;}
+
+.status-dot{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:500;
+  color:var(--text-muted);
+  letter-spacing:0.5px;
+}
+.dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#22C55E;
+  box-shadow:0 0 6px #22C55E;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+
+.badge{
+  font-size:10px;font-weight:600;
+  color:var(--gold);
+  text-transform:uppercase;letter-spacing:1.8px;
+  padding:5px 11px;
+  background:var(--gold-dim);
+  border:1px solid rgba(250,204,21,0.2);
+  border-radius:20px;
+}
+
+/* LAYOUT */
+.layout{
+  flex:1;
+  display:grid;
+  grid-template-columns:260px 1fr 260px;
+  overflow:hidden;
+}
+
+/* SIDEBARS */
+.sidebar{
+  padding:20px 16px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  border-right:1px solid var(--border);
+  scrollbar-width:none;
+}
+.sidebar::-webkit-scrollbar{display:none;}
+.sidebar.right{border-right:none;border-left:1px solid var(--border);}
+
+.sidebar-label{
+  font-size:10px;font-weight:600;
+  color:var(--text-muted);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:4px 12px 8px;
+}
+
+.sidebar-btn{
+  width:100%;
+  padding:10px 14px;
+  border-radius:10px;
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--text-dim);
+  cursor:pointer;
+  text-align:left;
+  font-size:13.5px;
+  font-weight:400;
+  font-family:'Outfit',sans-serif;
+  display:flex;align-items:center;gap:9px;
+  transition:all 0.18s ease;
+  line-height:1.3;
+}
+.sidebar-btn:hover{
+  background:var(--surface2);
+  border-color:var(--border-hover);
+  color:var(--gold);
+  transform:translateX(3px);
+}
+.sidebar-btn .icon{font-size:15px;flex-shrink:0;}
+
+/* TREND ITEMS */
+.trend{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:all 0.15s ease;
+  border:1px solid transparent;
+}
+.trend:hover{background:var(--surface2);border-color:var(--border-hover);}
+.trend:hover .trend-num{color:var(--gold);}
+
+.trend-num{
+  font-family:'Playfair Display',serif;
+  font-size:17px;font-weight:700;
+  color:#2D3748;
+  width:22px;flex-shrink:0;
+  transition:color 0.15s;
+}
+.trend-title{font-size:13.5px;font-weight:500;color:#CBD5E1;margin-bottom:2px;}
+.trend-sub{font-size:11px;color:var(--text-muted);}
+
+.divider{height:1px;background:var(--border);margin:10px 4px;}
+
+/* CHAT */
+.chat{
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  background:linear-gradient(180deg,rgba(14,14,22,0.4) 0%,rgba(7,7,12,0.6) 100%);
+  position:relative;
+}
+
+/* Sinema temalı silik arkaplan nesneleri */
+.cinema-decor{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+}
+.decor-item{
+  position:absolute;
+  opacity:0.05;
+  filter:grayscale(1);
+  animation:decorFloat 22s ease-in-out infinite;
+  line-height:1;
+  user-select:none;
+}
+.decor-item.glasses{
+  filter:none;
+  opacity:0.09;
+}
+.decor-item.glasses svg{display:block;}
+.decor-item.d1{top:8%;left:4%;font-size:64px;animation-duration:24s;}
+.decor-item.d2{top:12%;left:14%;font-size:48px;animation-duration:19s;animation-delay:-4s;}
+.decor-item.d3{top:6%;left:26%;font-size:56px;animation-duration:26s;animation-delay:-9s;}
+.decor-item.d4{top:13%;left:34%;font-size:40px;animation-duration:18s;animation-delay:-2s;}
+.decor-item.d5{top:9%;left:44%;font-size:70px;animation-duration:30s;animation-delay:-13s;}
+.decor-item.d6{top:11%;left:56%;font-size:36px;animation-duration:16s;animation-delay:-7s;}
+.decor-item.d7{top:7%;left:64%;font-size:38px;animation-duration:20s;animation-delay:-6s;}
+.decor-item.d8{top:14%;left:76%;font-size:44px;animation-duration:23s;animation-delay:-11s;}
+.decor-item.d9{top:8%;left:84%;font-size:32px;animation-duration:17s;animation-delay:-3s;}
+.decor-item.d10{top:12%;left:94%;font-size:50px;animation-duration:27s;animation-delay:-15s;}
+.decor-item.d11{top:28%;left:6%;font-size:60px;animation-duration:21s;animation-delay:-8s;}
+.decor-item.d12{top:32%;left:16%;font-size:34px;animation-duration:15s;animation-delay:-1s;}
+.decor-item.d13{top:27%;left:24%;font-size:30px;animation-duration:19s;animation-delay:-10s;}
+.decor-item.d14{top:33%;left:36%;font-size:42px;animation-duration:25s;animation-delay:-5s;}
+.decor-item.d15{top:29%;left:46%;font-size:46px;animation-duration:22s;animation-delay:-12s;}
+.decor-item.d16{top:31%;left:54%;font-size:38px;animation-duration:18s;animation-delay:-9s;}
+.decor-item.d17{top:26%;left:66%;font-size:32px;animation-duration:20s;animation-delay:-4s;}
+.decor-item.d18{top:34%;left:74%;font-size:44px;animation-duration:24s;animation-delay:-16s;}
+.decor-item.d19{top:30%;left:86%;font-size:36px;animation-duration:17s;animation-delay:-6s;}
+.decor-item.d20{top:33%;left:96%;font-size:40px;animation-duration:26s;animation-delay:-14s;}
+.decor-item.d21{top:48%;left:5%;font-size:34px;animation-duration:21s;animation-delay:-3s;}
+.decor-item.d22{top:52%;left:15%;font-size:48px;animation-duration:23s;animation-delay:-18s;}
+.decor-item.d23{top:47%;left:25%;font-size:40px;animation-duration:19s;animation-delay:-7s;}
+.decor-item.d24{top:53%;left:35%;font-size:36px;animation-duration:22s;animation-delay:-11s;}
+.decor-item.d25{top:49%;left:45%;font-size:44px;animation-duration:25s;animation-delay:-2s;}
+.decor-item.d26{top:51%;left:55%;font-size:32px;animation-duration:18s;animation-delay:-15s;}
+.decor-item.d27{top:46%;left:65%;font-size:38px;animation-duration:20s;animation-delay:-8s;}
+.decor-item.d28{top:54%;left:75%;font-size:42px;animation-duration:24s;animation-delay:-5s;}
+.decor-item.d29{top:50%;left:85%;font-size:30px;animation-duration:17s;animation-delay:-13s;}
+.decor-item.d30{top:52%;left:95%;font-size:46px;animation-duration:27s;animation-delay:-9s;}
+.decor-item.d31{top:68%;left:4%;font-size:36px;animation-duration:20s;animation-delay:-6s;}
+.decor-item.d32{top:72%;left:14%;font-size:30px;animation-duration:23s;animation-delay:-10s;}
+.decor-item.d33{top:67%;left:26%;font-size:44px;animation-duration:19s;animation-delay:-4s;}
+.decor-item.d34{top:73%;left:34%;font-size:32px;animation-duration:26s;animation-delay:-14s;}
+.decor-item.d35{top:69%;left:44%;font-size:40px;animation-duration:21s;animation-delay:-2s;}
+.decor-item.d36{top:71%;left:56%;font-size:34px;animation-duration:18s;animation-delay:-16s;}
+.decor-item.d37{top:66%;left:64%;font-size:38px;animation-duration:24s;animation-delay:-7s;}
+.decor-item.d38{top:74%;left:76%;font-size:42px;animation-duration:16s;animation-delay:-11s;}
+.decor-item.d39{top:68%;left:84%;font-size:28px;animation-duration:22s;animation-delay:-19s;}
+.decor-item.d40{top:72%;left:94%;font-size:46px;animation-duration:25s;animation-delay:-3s;}
+.decor-item.d41{top:88%;left:6%;font-size:30px;animation-duration:17s;animation-delay:-8s;}
+.decor-item.d42{top:92%;left:16%;font-size:36px;animation-duration:20s;animation-delay:-12s;}
+.decor-item.d43{top:87%;left:24%;font-size:32px;animation-duration:28s;animation-delay:-5s;}
+.decor-item.d44{top:93%;left:36%;font-size:44px;animation-duration:19s;animation-delay:-17s;}
+.decor-item.d45{top:89%;left:46%;font-size:38px;animation-duration:23s;animation-delay:-1s;}
+.decor-item.d46{top:91%;left:54%;font-size:34px;animation-duration:21s;animation-delay:-15s;}
+.decor-item.d47{top:86%;left:66%;font-size:40px;animation-duration:18s;animation-delay:-9s;}
+.decor-item.d48{top:94%;left:74%;font-size:30px;animation-duration:24s;animation-delay:-6s;}
+.decor-item.d49{top:90%;left:86%;font-size:42px;animation-duration:26s;animation-delay:-20s;}
+.decor-item.d50{top:96%;left:96%;font-size:36px;animation-duration:15s;animation-delay:-4s;}
+
+@keyframes decorFloat{
+  0%,100%{transform:translateY(0) rotate(0deg);}
+  50%{transform:translateY(-18px) rotate(4deg);}
+}
+
+.messages{
+  flex:1;
+  overflow-y:auto;
+  padding:28px 24px;
+  display:flex;flex-direction:column;gap:18px;
+  scrollbar-width:thin;
+  scrollbar-color:var(--border) transparent;
+  position:relative;
+  z-index:1;
+}
+.messages::-webkit-scrollbar{width:4px;}
+.messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+
+/* MSG */
+.msg{
+  display:flex;gap:12px;
+  max-width:82%;
+  animation:slideUp 0.28s ease-out;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+.msg.user{align-self:flex-end;flex-direction:row-reverse;}
+
+.avatar{
+  width:34px;height:34px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;flex-shrink:0;
+  border:1px solid var(--border);
+  background:var(--surface2);
+}
+.msg.user .avatar{
+  background:var(--gold-dim);
+  border-color:rgba(250,204,21,0.25);
+}
+
+.bubble{
+  padding:13px 16px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  font-size:14.5px;line-height:1.65;
+  color:#CBD5E1;
+  max-width:100%;
+}
+.msg.user .bubble{
+  border-color:rgba(250,204,21,0.18);
+  background:rgba(250,204,21,0.05);
+  color:var(--text);
+  border-bottom-right-radius:4px;
+}
+.msg.bot .bubble{border-top-left-radius:4px;}
+
+/* Film öneri kartları */
+.bubble strong{
+  color:#F1F5F9;
+  font-weight:600;
+  display:inline;
+}
+.bubble em{color:var(--gold);font-style:normal;}
+
+/* Typing indicator */
+.typing-dot{
+  display:inline-block;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--text-muted);
+  animation:blink 1.2s infinite;
+  margin:0 2px;
+}
+.typing-dot:nth-child(2){animation-delay:.2s;}
+.typing-dot:nth-child(3){animation-delay:.4s;}
+@keyframes blink{0%,80%,100%{opacity:0.2;}40%{opacity:1;}}
+
+/* INPUT */
+.input-area{
+  padding:20px 24px;
+  border-top:1px solid var(--border);
+  background:rgba(7,7,12,0.6);
+  backdrop-filter:blur(12px);
+  flex-shrink:0;
+}
+
+.input-row{
+  display:flex;align-items:flex-end;gap:8px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:8px 8px 8px 16px;
+  transition:border-color 0.2s;
+}
+.input-row:focus-within{
+  border-color:rgba(250,204,21,0.38);
+  box-shadow:0 0 0 3px rgba(250,204,21,0.04);
+}
+
+textarea{
+  flex:1;
+  background:transparent;border:none;outline:none;
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  font-size:14.5px;
+  resize:none;
+  min-height:40px;max-height:120px;
+  padding:8px 0;
+  line-height:1.5;
+}
+textarea::placeholder{color:var(--text-muted);}
+
+.send-btn{
+  width:38px;height:38px;
+  border-radius:10px;border:none;
+  background:linear-gradient(135deg,#FACC15,#F59E0B);
+  color:#000;font-size:16px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:transform 0.15s,box-shadow 0.15s,opacity 0.15s;
+  box-shadow:0 2px 12px rgba(250,204,21,0.2);
+}
+.send-btn:hover:not(:disabled){transform:scale(1.06);box-shadow:0 4px 18px rgba(250,204,21,0.35);}
+.send-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
+
+.input-hint{
+  font-size:11px;color:var(--text-muted);
+  margin-top:8px;text-align:center;
+  letter-spacing:0.3px;
+}
+
+/* ERROR */
+.error-bubble{
+  background:rgba(239,68,68,0.08);
+  border-color:rgba(239,68,68,0.25);
+  color:#FCA5A5;
+}
+
+@media(max-width:960px){
+  .layout{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+}
+
+/* cinematic background */
+body::before{
+content:"";
+position:fixed;inset:0;pointer-events:none;opacity:.06;
+background-image:
+url('https://www.transparenttextures.com/patterns/asfalt-dark.png'),
+radial-gradient(circle at 20% 20%,white 1px,transparent 1px),
+radial-gradient(circle at 80% 60%,white 1px,transparent 1px);
+background-size:auto,120px 120px,180px 180px;
+}
+.app,.sidebar,.chat,header{
+box-shadow:0 0 40px rgba(0,0,0,.25);
+}
+.sidebar-btn,.trend,.bubble,.input-row{
+backdrop-filter:blur(14px);
+}
+
+</style>
+</head>
+<body>
+
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+
+<div class="app">
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🎬</div>
+      <div class="logo-text">Sinema AI</div>
+    </div>
+    <div class="header-right">
+      <div class="status-dot">
+        <div class="dot"></div>
+        <span>Çevrimiçi</span>
+      </div>
+      <div class="badge">AI Destekli</div>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- SOL SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-label">Keşfet</div>
+
+      <button class="sidebar-btn" onclick="quickSend('Christopher Nolan filmleri öner')">
+        <span class="icon">🧠</span> Nolan Tarzı
+      </button>
+      <button class="sidebar-btn" onclick="quickSend('Inception filmine benzer filmler öner')">
+        <span class="icon">🌀</span> Benzer Filmler
+      </button>
+      <button class="sidebar-btn" onclick="quickSend('Psikolojik gerilim filmleri öner')">
+        <span class="icon">🎭</span> Psikolojik Gerilim
+      </button>
+      <button class="sidebar-btn" onclick="quickSend('Bilim kurgu filmleri öner')">
+        <span class="icon">🚀</span> Bilim Kurgu
+      </button>
+      <button class="sidebar-btn" onclick="quickSend('Türk filmleri öner')">
+        <span class="icon">🇹🇷</span> Yerli Sinema
+      </button>
+
+      <div class="divider"></div>
+      <div class="sidebar-label">Ruh Hali</div>
+
+      <button class="sidebar-btn" onclick="quickSend('Noir tarzı suç filmleri öner')">
+        <span class="icon">🌑</span> Karanlık & Noir
+      </button>
+      <button class="sidebar-btn" onclick="quickSend('Dram filmleri öner')">
+        <span class="icon">💫</span> Derin Dram
+      </button>
+      <button class="sidebar-btn" onclick="quickSend('Aksiyon filmleri öner')">
+        <span class="icon">⚡</span> Aksiyon
+      </button>
+
+      <div class="divider"></div>
+
+      <button class="sidebar-btn" onclick="resetChat()" style="color:#64748B;margin-top:4px;">
+        <span class="icon">↺</span> Sohbeti Sıfırla
+      </button>
+    </aside>
+
+    <!-- CHAT -->
+    <main class="chat">
+      <div class="cinema-decor" aria-hidden="true">
+        <svg width="0" height="0" style="position:absolute;">
+          <defs>
+            <symbol id="glasses3d" viewBox="0 0 100 40">
+              <rect x="0" y="15" width="8" height="6" fill="#1a1a1a"/>
+              <rect x="4" y="5" width="38" height="28" rx="4" fill="#E5383B"/>
+              <rect x="42" y="15" width="16" height="7" fill="#1a1a1a"/>
+              <rect x="58" y="5" width="38" height="28" rx="4" fill="#3A86FF"/>
+              <rect x="92" y="15" width="8" height="6" fill="#1a1a1a"/>
+            </symbol>
+          </defs>
+        </svg>
+        <div class="decor-item d1">🎬</div>
+        <div class="decor-item d2">🎞️</div>
+        <div class="decor-item d3">🎥</div>
+        <div class="decor-item d4">🍿</div>
+        <div class="decor-item d5">🎟️</div>
+        <div class="decor-item d6">⭐</div>
+        <div class="decor-item d7">🎬</div>
+        <div class="decor-item d8">🎞️</div>
+        <div class="decor-item d9">⭐</div>
+        <div class="decor-item d10">🎥</div>
+        <div class="decor-item d11">🍿</div>
+        <div class="decor-item d12">🎟️</div>
+        <div class="decor-item d13">🎬</div>
+        <div class="decor-item d14">🎞️</div>
+        <div class="decor-item d15">🍿</div>
+        <div class="decor-item d16">🍿</div>
+        <div class="decor-item d17">⭐</div>
+        <div class="decor-item d18">🍿</div>
+        <div class="decor-item d19">🎥</div>
+        <div class="decor-item d20">🎟️</div>
+        <div class="decor-item d21">🍿</div>
+        <div class="decor-item d22">🎞️</div>
+        <div class="decor-item glasses d23"><svg viewBox="0 0 100 40" width="1.5em" height="0.6em"><use href="#glasses3d"></use></svg></div>
+        <div class="decor-item d24">🎬</div>
+        <div class="decor-item d25">🍿</div>
+        <div class="decor-item glasses d26"><svg viewBox="0 0 100 40" width="1.5em" height="0.6em"><use href="#glasses3d"></use></svg></div>
+        <div class="decor-item d27">🎞️</div>
+        <div class="decor-item d28">⭐</div>
+        <div class="decor-item glasses d29"><svg viewBox="0 0 100 40" width="1.5em" height="0.6em"><use href="#glasses3d"></use></svg></div>
+        <div class="decor-item d30">🎥</div>
+        <div class="decor-item d31">🎬</div>
+        <div class="decor-item d32">🎞️</div>
+        <div class="decor-item d33">🍿</div>
+        <div class="decor-item d34">⭐</div>
+        <div class="decor-item glasses d35"><svg viewBox="0 0 100 40" width="1.5em" height="0.6em"><use href="#glasses3d"></use></svg></div>
+        <div class="decor-item d36">🎥</div>
+        <div class="decor-item d37">🎟️</div>
+        <div class="decor-item d38">🎬</div>
+        <div class="decor-item d39">🍿</div>
+        <div class="decor-item d40">🎞️</div>
+        <div class="decor-item d41">⭐</div>
+        <div class="decor-item d42">🎥</div>
+        <div class="decor-item d43">🎟️</div>
+        <div class="decor-item d44">🍿</div>
+        <div class="decor-item d45">🎬</div>
+        <div class="decor-item d46">🎞️</div>
+        <div class="decor-item glasses d47"><svg viewBox="0 0 100 40" width="1.5em" height="0.6em"><use href="#glasses3d"></use></svg></div>
+        <div class="decor-item d48">⭐</div>
+        <div class="decor-item d49">🎥</div>
+        <div class="decor-item d50">🍿</div>
+      </div>
+      <div class="messages" id="messages">
+        <div class="msg bot">
+          <div class="avatar">🎬</div>
+          <div class="bubble">Merhaba! Bugün hangi filmi keşfetmek istersin? Bir ruh hali, yönetmen adı veya izlediğin bir film yaz — sana en uygun önerileri getireyim.</div>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <div class="input-row">
+          <textarea
+            id="input"
+            placeholder="Bir film, yönetmen veya ruh hali yaz..."
+            rows="1"
+            oninput="autoResize(this)"
+          ></textarea>
+          <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Gönder">➤</button>
+        </div>
+        <div class="input-hint">Enter ile gönder · Shift+Enter yeni satır</div>
+      </div>
+    </main>
+
+    <!-- SAĞ SIDEBAR -->
+    <aside class="sidebar right">
+      <div class="sidebar-label">Hızlı Öneriler</div>
+
+      <div class="trend" onclick="quickSend('Christopher Nolan filmleri öner')">
+        <div class="trend-num">01</div>
+        <div>
+          <div class="trend-title">Christopher Nolan</div>
+          <div class="trend-sub">Nolan filmi öner</div>
+        </div>
+      </div>
+
+      <div class="trend" onclick="quickSend('Leonardo DiCaprio filmleri öner')">
+        <div class="trend-num">02</div>
+        <div>
+          <div class="trend-title">Leonardo DiCaprio</div>
+          <div class="trend-sub">DiCaprio filmleri</div>
+        </div>
+      </div>
+
+      <div class="trend" onclick="quickSend('Gerilim filmleri öner')">
+        <div class="trend-num">03</div>
+        <div>
+          <div class="trend-title">Gerilim Filmleri</div>
+          <div class="trend-sub">Gerilim öner</div>
+        </div>
+      </div>
+
+      <div class="trend" onclick="quickSend('Türk filmleri öner')">
+        <div class="trend-num">04</div>
+        <div>
+          <div class="trend-title">Türk Filmleri</div>
+          <div class="trend-sub">En iyi yerli yapımlar</div>
+        </div>
+      </div>
+
+      <div class="trend" onclick="quickSend('Oscar ödüllü filmler öner')">
+        <div class="trend-num">05</div>
+        <div>
+          <div class="trend-title">Oscar Kazananlar</div>
+          <div class="trend-sub">Ödüllü filmler</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="sidebar-label">Hızlı Erişim</div>
+
+      <div class="trend" onclick="quickSend('Tarantino filmleri öner')">
+        <div class="trend-num" style="font-size:13px;width:22px;">🎞</div>
+        <div>
+          <div class="trend-title">Tarantino Filmleri</div>
+          <div class="trend-sub">Yönetmen bazlı</div>
+        </div>
+      </div>
+
+      <div class="trend" onclick="quickSend('2020 sonrası en iyi filmler öner')">
+        <div class="trend-num" style="font-size:13px;width:22px;">🆕</div>
+        <div>
+          <div class="trend-title">Yeni Çıkanlar</div>
+          <div class="trend-sub">2020 sonrası</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+const messagesEl = document.getElementById('messages');
+const inputEl = document.getElementById('input');
+const sendBtn = document.getElementById('sendBtn');
+
+let isLoading = false;
+
+// Enter tuşu kontrolü
+inputEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function addMessage(role, html, isError = false) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  const avatarIcon = role === 'user' ? '👤' : '🎬';
+  const bubbleClass = isError ? 'bubble error-bubble' : 'bubble';
+
+  div.innerHTML = `
+    <div class="avatar">${avatarIcon}</div>
+    <div class="${bubbleClass}">${html}</div>
+  `;
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  return div;
+}
+
+function showTyping() {
+  const div = document.createElement('div');
+  div.className = 'msg bot';
+  div.id = 'typing-indicator';
+  div.innerHTML = `
+    <div class="avatar">🎬</div>
+    <div class="bubble" style="padding:14px 18px;">
+      <span class="typing-dot"></span>
+      <span class="typing-dot"></span>
+      <span class="typing-dot"></span>
+    </div>
+  `;
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById('typing-indicator');
+  if (el) el.remove();
+}
+
+// Düz metni basit HTML'e çevir (kalın = **...**)
+function formatText(text) {
+  return text
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>');
+}
+
+async function sendMessage() {
+  const text = inputEl.value.trim();
+  if (!text || isLoading) return;
+
+  addMessage('user', formatText(text));
+  inputEl.value = '';
+  inputEl.style.height = 'auto';
+  setLoading(true);
+  showTyping();
+
+  try {
+    const res = await fetch('/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message: text}),
+    });
+
+    removeTyping();
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({error: 'Sunucu hatası'}));
+      addMessage('bot', '⚠ ' + (err.error || 'Bir hata oluştu. Lütfen tekrar deneyin.'), true);
+    } else {
+      const data = await res.json();
+      addMessage('bot', formatText(data.response || 'Yanıt alınamadı.'));
+    }
+  } catch (err) {
+    removeTyping();
+    addMessage('bot', '⚠ Bağlantı hatası. Sunucunun çalıştığından emin olun (<code>python app.py</code>).', true);
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+}
+
+function quickSend(text) {
+  if (isLoading) return;
+  inputEl.value = text;
+  sendMessage();
+}
+
+async function resetChat() {
+  if (isLoading) return;
+  try {
+    await fetch('/reset', {method: 'POST'});
+  } catch {}
+  messagesEl.innerHTML = '';
+  addMessage('bot', 'Sohbet sıfırlandı. Yeni bir film aramaya başlayabilirsin!');
+}
+
+function setLoading(val) {
+  isLoading = val;
+  sendBtn.disabled = val;
+  inputEl.disabled = val;
+}
+</script>
+</body>
+</html>

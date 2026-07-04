@@ -1,0 +1,227 @@
+[
+  {
+    "film_adi": "Hababam Sınıfı",
+    "yonetmen": "ertem eğilmez",
+    "oyuncular": "kemal sunal, münir özkul, adile naşit",
+    "yil": 1975,
+    "tur": "komedi",
+    "ozet": "Özel bir lisede disiplin sorunlarıyla boğuşan öğretmenler ve asi öğrenciler arasındaki komik çatışmaları anlatan Türk sinemasının en sevilen komedi klasiği.",
+    "etiketler": ["türk sineması", "okul", "kemal sunal", "nostalji", "klasik komedi"]
+  },
+  {
+    "film_adi": "Eşkıya",
+    "yonetmen": "yavuz turgul",
+    "oyuncular": "şener şen, uğur yücel, sırrı süreyya önder",
+    "yil": 1996,
+    "tur": "dram, suç",
+    "ozet": "35 yıl sonra İstanbul'a dönen yaşlı bir eşkıyanın geçmişiyle hesaplaşmasını ve değişen Türkiye'yi anlatan toplumsal dram.",
+    "etiketler": ["türk sineması", "eşkıya", "nostalji", "toplumsal dram", "istanbul"]
+  },
+  {
+    "film_adi": "Vizontele",
+    "yonetmen": "yılmaz erdoğan, özkan uğur",
+    "oyuncular": "yılmaz erdoğan, demet akbağ, cem yılmaz",
+    "yil": 2001,
+    "tur": "komedi, dram",
+    "ozet": "1970'lerin bir Türk kasabasına televizyonun gelişiyle değişen hayatları mizahi ve duygusal bir dille anlatan nostaljik komedi.",
+    "etiketler": ["türk sineması", "nostalji", "kasaba", "televizyon", "aile"]
+  },
+  {
+    "film_adi": "Selvi Boylum Al Yazmalım",
+    "yonetmen": "atıf yılmaz",
+    "oyuncular": "türkan şoray, kadir i̇nanır",
+    "yil": 1978,
+    "tur": "romantik, dram",
+    "ozet": "Kırsal Türkiye'de aşk, ayrılık ve toplumsal baskı altında kırılan bir ilişkiyi anlatan unutulmaz Türk melodramı.",
+    "etiketler": ["türk sineması", "aşk", "melodram", "kırsal", "klasik"]
+  },
+  {
+    "film_adi": "Muhsin Bey",
+    "yonetmen": "yavuz turgul",
+    "oyuncular": "kemal sunal, şener şen, adile naşit",
+    "yil": 1986,
+    "tur": "komedi, dram",
+    "ozet": "İstanbul'a gelen taşralı bir adamın müzik dünyasına adım atması ve şehir hayatına uyum çabalarını anlatan Türk sinema klasiği.",
+    "etiketler": ["türk sineması", "müzik", "istanbul", "kemal sunal", "komedi"]
+  },
+  {
+    "film_adi": "Yol",
+    "yonetmen": "şerif gören",
+    "oyuncular": "tarık akan, sergen nergis, halil ergün",
+    "yil": 1982,
+    "tur": "dram",
+    "ozet": "Cezaevinden izinli çıkan bir mahkumun yolculuğu üzerinden Türkiye'nin toplumsal ve siyasi gerçekliğini yansıtan çarpıcı dram.",
+    "etiketler": ["türk sineması", "toplumsal", "yolculuk", "özgürlük", "politik"]
+  },
+  {
+    "film_adi": "Ayla",
+    "yonetmen": "can ulkay",
+    "oyuncular": "i̇smail hacıoğlu, çetin tekindor, kim seol",
+    "yil": 2017,
+    "tur": "dram, savaş",
+    "ozet": "Kore Savaşı'nda Koreli bir kızla kurulan derin bağın yıllar sonra devam eden hikayesini anlatan duygusal savaş dramı.",
+    "etiketler": ["türk sineması", "savaş", "kore", "baba-kız", "duygusal"]
+  },
+  {
+    "film_adi": "Recep İvedik",
+    "yonetmen": "togan gökbakar",
+    "oyuncular": "şahan gökbakar",
+    "yil": 2008,
+    "tur": "komedi",
+    "ozet": "Sıradışı davranışlarıyla tanınan Recep'in Antalya yolculuğunda yaşadığı absürt ve komik maceraları anlatan popüler Türk komedisi.",
+    "etiketler": ["türk sineması", "komedi", "absürt", "macera", "popüler"]
+  },
+  {
+    "film_adi": "The Shawshank Redemption",
+    "yonetmen": "frank darabont",
+    "oyuncular": "tim robbins, morgan freeman",
+    "yil": 1994,
+    "tur": "dram",
+    "ozet": "Haksız yere hapse giren bir bankacının Shawshank Cezaevi'nde umut, dostluk ve özgürlük arayışını anlatan sinema klasiği.",
+    "etiketler": ["hapishane", "umut", "dostluk", "özgürlük", "klasik"]
+  },
+  {
+    "film_adi": "Gladiator",
+    "yonetmen": "ridley scott",
+    "oyuncular": "russell crowe, joaquin phoenix, connie nielsen",
+    "yil": 2000,
+    "tur": "aksiyon, dram",
+    "ozet": "Romalı general Maximus'un ailesinin katledilmesi sonrası gladyatör olarak intikam ve adalet arayışına girdiği epik tarihsel dram.",
+    "etiketler": ["roma", "gladyatör", "intikam", "epik", "savaş"]
+  },
+  {
+    "film_adi": "The Lord of the Rings: The Fellowship of the Ring",
+    "yonetmen": "peter jackson",
+    "oyuncular": "elijah wood, ian mckellen, viggo mortensen",
+    "yil": 2001,
+    "tur": "fantastik, macera",
+    "ozet": "Hobbit Frodo'nun karanlık lordu yenmek için yüzükü yok etme görevine çıkan destansı fantastik macera.",
+    "etiketler": ["fantastik", "epik", "yüzük", "orta dünya", "macera"]
+  },
+  {
+    "film_adi": "Se7en",
+    "yonetmen": "david fincher",
+    "oyuncular": "brad pitt, morgan freeman, kevin spacey",
+    "yil": 1995,
+    "tur": "gerilim, suç",
+    "ozet": "Yedi ölümcül günah temalı cinayetleri araştıran iki dedektifin karanlık ve psikolojik gerilim dolu soruşturması.",
+    "etiketler": ["gerilim", "cinayet", "psikolojik", "karanlık", "fincher"]
+  },
+  {
+    "film_adi": "Good Will Hunting",
+    "yonetmen": "gus van sant",
+    "oyuncular": "matt damon, robin williams, ben affleck",
+    "yil": 1997,
+    "tur": "dram",
+    "ozet": "Genç bir matematik dehasının terapist yardımıyla kendi potansiyelini ve duygusal bloklarını keşfetme yolculuğu.",
+    "etiketler": ["dram", "terapi", "potansiyel", "duygusal", "büyüme"]
+  },
+  {
+    "film_adi": "Spirited Away",
+    "yonetmen": "hayao miyazaki",
+    "oyuncular": "rumi hiiragi, miyu irino",
+    "yil": 2001,
+    "tur": "animasyon, fantastik",
+    "ozet": "Küçük bir kızın ruhlar dünyasına düşerek ailesini kurtarmak için büyülü bir yolculuğa çıkmasını anlatan Miyazaki başyapıtı.",
+    "etiketler": ["animasyon", "japon", "miyazaki", "fantastik", "büyü"]
+  },
+  {
+    "film_adi": "La La Land",
+    "yonetmen": "damien chazelle",
+    "oyuncular": "ryan gosling, emma stone",
+    "yil": 2016,
+    "tur": "romantik, müzikal",
+    "ozet": "Los Angeles'ta kariyer peşinde koşan bir müzisyen ve aktrisin aşk ve hayaller arasındaki çatışmayı anlatan modern müzikal.",
+    "etiketler": ["müzikal", "romantik", "los angeles", "hayaller", "aşk"]
+  },
+  {
+    "film_adi": "Get Out",
+    "yonetmen": "jordan peele",
+    "oyuncular": "daniel kaluuya, allison williams, catherine keener",
+    "yil": 2017,
+    "tur": "gerilim, korku",
+    "ozet": "Beyaz sevgilisinin ailesiyle tanışan siyahi bir adamın gizemli ve tekinsiz bir komünitede yaşadığı sosyal gerilim-korku.",
+    "etiketler": ["sosyal gerilim", "korku", "ırkçılık", "sürpriz", "psycho-thriller"]
+  },
+  {
+    "film_adi": "Mad Max: Fury Road",
+    "yonetmen": "george miller",
+    "oyuncular": "tom hardy, charlize theron",
+    "yil": 2015,
+    "tur": "aksiyon, bilim kurgu",
+    "ozet": "Post-apokaliptik çölde kaçış ve isyan dolu nefes kesen aksiyon kurgusuyla distopik bir dünyada hayatta kalma mücadelesi.",
+    "etiketler": ["aksiyon", "distopya", "post-apokaliptik", "kaçış", "görsel şölen"]
+  },
+  {
+    "film_adi": "Her",
+    "yonetmen": "spike jonze",
+    "oyuncular": "joaquin phoenix, scarlett johansson, amy adams",
+    "yil": 2013,
+    "tur": "romantik, bilim kurgu",
+    "ozet": "Yapay zeka işletim sistemiyle duygusal ilişki kuran yalnız bir adamın modern aşk ve teknoloji sorgulaması.",
+    "etiketler": ["yapay zeka", "aşk", "yalnızlık", "teknoloji", "duygusal"]
+  },
+  {
+    "film_adi": "Ex Machina",
+    "yonetmen": "alex garland",
+    "oyuncular": "alicia vikander, domhnall gleeson, oscar isaac",
+    "yil": 2014,
+    "tur": "bilim kurgu, gerilim",
+    "ozet": "Genç bir programcının yapay zeka bilincini test ettiği izole laboratuvarda gerilim ve etik sorgulamalar.",
+    "etiketler": ["yapay zeka", "bilinç", "gerilim", "tek mekan", "felsefi"]
+  },
+  {
+    "film_adi": "The Grand Budapest Hotel",
+    "yonetmen": "wes anderson",
+    "oyuncular": "ralph fiennes, tony revolori, saoirse ronan",
+    "yil": 2014,
+    "tur": "komedi, dram",
+    "ozet": "Efsanevi bir otel concierge'inin maceralarını renkli ve simetrik görsel dille anlatan Wes Anderson komedisi.",
+    "etiketler": ["wes anderson", "komedi", "görsel", "nostalji", "macera"]
+  },
+  {
+    "film_adi": "Jaws",
+    "yonetmen": "steven spielberg",
+    "oyuncular": "roy scheider, robert duvall, richard dreyfuss",
+    "yil": 1975,
+    "tur": "gerilim, korku",
+    "ozet": "Küçük bir sahil kasabasını tehdit eden dev köpekbalığına karşı verilen mücadeleyi anlatan gerilim klasiği.",
+    "etiketler": ["korku", "köpekbalığı", "spielberg", "klasik", "gerilim"]
+  },
+  {
+    "film_adi": "Titanic",
+    "yonetmen": "james cameron",
+    "oyuncular": "leonardo dicaprio, kate winslet, billy zane",
+    "yil": 1997,
+    "tur": "romantik, dram",
+    "ozet": "Titanic gemisinde farklı sınıflardan iki gencin aşkını ve geminin trajik batışını anlatan epik romantik dram.",
+    "etiketler": ["romantik", "epik", "titanic", "aşk", "trajedi"]
+  },
+  {
+    "film_adi": "The Social Network",
+    "yonetmen": "david fincher",
+    "oyuncular": "jesse eisenberg, andrew garfield, justin timberlake",
+    "yil": 2010,
+    "tur": "dram, biyografi",
+    "ozet": "Facebook'un kuruluş sürecini ve arkadaşlık, güç ve başarı arasındaki çatışmaları anlatan modern biyografik dram.",
+    "etiketler": ["facebook", "teknoloji", "girişim", "fincher", "modern"]
+  },
+  {
+    "film_adi": "Oldboy",
+    "yonetmen": "park chan-wook",
+    "oyuncular": "choi min-sik, yoo ji-tae, kang hye-jung",
+    "yil": 2003,
+    "tur": "gerilim, suç",
+    "ozet": "15 yıl hapis sonrası serbest bırakılan bir adamın intikam peşindeki karanlık ve şok edici yolculuğu.",
+    "etiketler": ["kore sineması", "intikam", "gerilim", "plot twist", "karanlık"]
+  },
+  {
+    "film_adi": "Amélie",
+    "yonetmen": "jean-pierre jeunet",
+    "oyuncular": "audrey tautou, mathieu kassovitz",
+    "yil": 2001,
+    "tur": "romantik, komedi",
+    "ozet": "Paris'te yaşayan hayalperest bir garsonun insanların hayatlarına gizlice dokunurken kendi aşkını bulma hikayesi.",
+    "etiketler": ["fransız", "romantik", "paris", "neşe", "hayalperest"]
+  }
+]
